@@ -11,10 +11,13 @@ public class GameController : MonoBehaviour
 	[SerializeField] private Text _moneyLabel;
 	[SerializeField] private Text resultMessage;
 	[SerializeField] private WelcomeScreen welcomeScreen;
+	[SerializeField] private Text winStreakCounter;
+
 
 	private Player _player;
 	private PlayerInfoLoader playerInfoLoader;
 	private UpdateGameLoader updateGameLoader;
+	private int winStreak = 0;
 
 	void Start()
 	{
@@ -103,7 +106,7 @@ public class GameController : MonoBehaviour
 
 		var coinAmountChange = (int)gameUpdateData["coinsAmountChange"];
 		_player.ChangeCoinAmount(coinAmountChange);
-		DisplayResultMessage(coinAmountChange);
+		UpdateResults(coinAmountChange);
 	}
 
 	private string DisplayResultAsText (UseableItem result)
@@ -121,12 +124,13 @@ public class GameController : MonoBehaviour
 		return "Nothing";
 	}
 
-	private void DisplayResultMessage(int coinAmountChange)
+	private void UpdateResults(int coinAmountChange)
 	{
 		if (coinAmountChange > 0)
 		{
 			resultMessage.text = "Congratulations! You've won $" + coinAmountChange;
 			resultMessage.color = Color.green;
+			winStreak++;
 		}
 		else if (coinAmountChange == 0)
 		{
@@ -136,7 +140,10 @@ public class GameController : MonoBehaviour
 		else
 		{
 			resultMessage.text = "Nice try... You've lost $" + coinAmountChange;
-			resultMessage.color = Color.red;	
+			resultMessage.color = Color.red;
+			winStreak = 0;
 		}
+
+		winStreakCounter.text = "Win streak: " + winStreak;
 	}
 }
