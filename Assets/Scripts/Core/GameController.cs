@@ -67,7 +67,7 @@ public class GameController : MonoBehaviour
 	{
 		UpdateGameLoader updateGameLoader = new UpdateGameLoader(playerChoice);
 		updateGameLoader.OnLoaded += OnGameUpdated;
-		updateGameLoader.load();
+		updateGameLoader.Load();
 	}
 
 	public void OnGameUpdated(Hashtable gameUpdateData)

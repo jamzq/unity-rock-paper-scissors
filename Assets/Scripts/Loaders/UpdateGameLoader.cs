@@ -1,5 +1,4 @@
-﻿using UnityEngine;
-using System.Collections;
+﻿using System.Collections;
 using System;
 
 public class UpdateGameLoader
@@ -14,11 +13,12 @@ public class UpdateGameLoader
 		_choice = playerChoice;
 	}
 
-	public void load()
+	public void Load()
 	{
-		UseableItem opponentHand = (UseableItem)Enum.GetValues(typeof(UseableItem)).GetValue(UnityEngine.Random.Range(0, 4));
+		var mockGameUpdate = new Hashtable();
+		var useableItemValues = Enum.GetValues(typeof(UseableItem));
+		var opponentHand = (UseableItem) useableItemValues.GetValue(UnityEngine.Random.Range(1, useableItemValues.Length));
 
-		Hashtable mockGameUpdate = new Hashtable();
 		mockGameUpdate["resultPlayer"] = _choice;
 		mockGameUpdate["resultOpponent"] = opponentHand;
 		mockGameUpdate["coinsAmountChange"] = GetCoinsAmount(_choice, opponentHand);
