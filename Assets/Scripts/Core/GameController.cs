@@ -1,13 +1,12 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
-using System.Collections.Generic;
-using System;
 
 public class GameController : MonoBehaviour
 {
 	public Text playerHand;
 	public Text enemyHand;
+	public GameOverScreen gameOverScreen;
 
 	private Text _nameLabel;
 	private Text _moneyLabel;
@@ -39,8 +38,17 @@ public class GameController : MonoBehaviour
 
 	public void UpdateHud()
 	{
-		_nameLabel.text = "Name: " + _player.GetName();
-		_moneyLabel.text = "Money: $" + _player.GetCoins().ToString();
+		var playerCoins = _player.GetCoins();
+
+		if (playerCoins > 0)
+		{
+			_nameLabel.text = "Name: " + _player.GetName();
+			_moneyLabel.text = "Money: $" + playerCoins.ToString();
+		}
+		else
+		{
+			gameOverScreen.Display();
+		}
 	}
 
 	public void HandlePlayerInput(int item)
