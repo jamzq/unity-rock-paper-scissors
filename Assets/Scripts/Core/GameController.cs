@@ -9,6 +9,7 @@ public class GameController : MonoBehaviour
 	[SerializeField] private GameOverScreen gameOverScreen;
 	[SerializeField] private Text _nameLabel;
 	[SerializeField] private Text _moneyLabel;
+	[SerializeField] private Text resultMessage;
 
 	private Player _player;
 	private PlayerInfoLoader playerInfoLoader;
@@ -84,7 +85,9 @@ public class GameController : MonoBehaviour
 		playerHand.text = DisplayResultAsText((UseableItem)gameUpdateData["resultPlayer"]);
 		enemyHand.text = DisplayResultAsText((UseableItem)gameUpdateData["resultOpponent"]);
 
-		_player.ChangeCoinAmount((int)gameUpdateData["coinsAmountChange"]);
+		var coinAmountChange = (int)gameUpdateData["coinsAmountChange"];
+		_player.ChangeCoinAmount(coinAmountChange);
+		DisplayResultMessage(coinAmountChange);
 	}
 
 	private string DisplayResultAsText (UseableItem result)
@@ -100,5 +103,24 @@ public class GameController : MonoBehaviour
 		}
 
 		return "Nothing";
+	}
+
+	private void DisplayResultMessage(int coinAmountChange)
+	{
+		if (coinAmountChange > 0)
+		{
+			resultMessage.text = "Congratulations! You've won $" + coinAmountChange;
+			resultMessage.color = Color.green;
+		}
+		else if (coinAmountChange == 0)
+		{
+			resultMessage.text = "Tie! Everybody wins! You get your money back.";
+			resultMessage.color = Color.yellow;
+		}
+		else
+		{
+			resultMessage.text = "Nice try... You've lost $" + coinAmountChange;
+			resultMessage.color = Color.red;	
+		}
 	}
 }

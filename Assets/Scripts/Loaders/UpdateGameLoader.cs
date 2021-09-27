@@ -26,7 +26,7 @@ public class UpdateGameLoader
 		OnLoaded(mockGameUpdate);
 	}
 
-	private int GetCoinsAmount (UseableItem playerHand, UseableItem opponentHand)
+	private int GetCoinsAmount(UseableItem playerHand, UseableItem opponentHand)
 	{
 		Result drawResult = ResultAnalyzer.GetResultState(playerHand, opponentHand);
 
@@ -42,7 +42,5 @@ public class UpdateGameLoader
 		{
 			return 0;
 		}
-
-		return 0;
 	}
 }
