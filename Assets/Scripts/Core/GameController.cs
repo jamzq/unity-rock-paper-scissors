@@ -10,6 +10,7 @@ public class GameController : MonoBehaviour
 	[SerializeField] private Text _nameLabel;
 	[SerializeField] private Text _moneyLabel;
 	[SerializeField] private Text resultMessage;
+	[SerializeField] private WelcomeScreen welcomeScreen;
 
 	private Player _player;
 	private PlayerInfoLoader playerInfoLoader;
@@ -19,7 +20,7 @@ public class GameController : MonoBehaviour
 	{
 		playerInfoLoader = new PlayerInfoLoader();
 		playerInfoLoader.OnLoaded += OnPlayerInfoLoaded;
-		playerInfoLoader.load();
+		playerInfoLoader.Load();
 	}
 
 	void Update()
@@ -40,16 +41,23 @@ public class GameController : MonoBehaviour
 
 	public void UpdateHud()
 	{
-		var playerCoins = _player.GetCoins();
-
-		if (playerCoins > 0)
+		if (string.IsNullOrEmpty(_player.GetName()))
 		{
-			_nameLabel.text = "Name: " + _player.GetName();
-			_moneyLabel.text = "Money: $" + playerCoins.ToString();
+			welcomeScreen.Display();
 		}
 		else
 		{
-			gameOverScreen.Display();
+			var playerCoins = _player.GetCoins();
+
+			if (playerCoins > 0)
+			{
+				_nameLabel.text = "Name: " + _player.GetName();
+				_moneyLabel.text = "Money: $" + playerCoins.ToString();
+			}
+			else
+			{
+				gameOverScreen.Display();
+			}
 		}
 	}
 
@@ -71,6 +79,12 @@ public class GameController : MonoBehaviour
 		}
 
 		UpdateGame(playerChoice);
+	}
+
+	public void ConfirmPlayerName()
+	{
+		welcomeScreen.ConfirmPlayerName();
+		playerInfoLoader.Load();
 	}
 
 	private void UpdateGame(UseableItem playerChoice)
