@@ -12,6 +12,8 @@ public class GameController : MonoBehaviour
 	private Text _moneyLabel;
 
 	private Player _player;
+	private PlayerInfoLoader playerInfoLoader;
+	private UpdateGameLoader updateGameLoader;
 
 	void Awake()
 	{
@@ -21,7 +23,7 @@ public class GameController : MonoBehaviour
 
 	void Start()
 	{
-		PlayerInfoLoader playerInfoLoader = new PlayerInfoLoader();
+		playerInfoLoader = new PlayerInfoLoader();
 		playerInfoLoader.OnLoaded += OnPlayerInfoLoaded;
 		playerInfoLoader.load();
 	}
@@ -29,6 +31,12 @@ public class GameController : MonoBehaviour
 	void Update()
 	{
 		UpdateHud();
+	}
+
+	void OnDisable()
+	{
+		playerInfoLoader.OnLoaded -= OnPlayerInfoLoaded;
+		updateGameLoader.OnLoaded -= OnGameUpdated;
 	}
 
 	public void OnPlayerInfoLoaded(Hashtable playerData)
@@ -73,7 +81,7 @@ public class GameController : MonoBehaviour
 
 	private void UpdateGame(UseableItem playerChoice)
 	{
-		UpdateGameLoader updateGameLoader = new UpdateGameLoader(playerChoice);
+		updateGameLoader = new UpdateGameLoader(playerChoice);
 		updateGameLoader.OnLoaded += OnGameUpdated;
 		updateGameLoader.Load();
 	}
