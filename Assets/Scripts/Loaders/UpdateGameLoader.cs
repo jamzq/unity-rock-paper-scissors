@@ -6,11 +6,11 @@ public class UpdateGameLoader
 	public delegate void OnLoadedAction(Hashtable gameUpdateData);
 	public event OnLoadedAction OnLoaded;
 
-	private UseableItem _choice;
+	private UseableItem _playerHand;
 
-	public UpdateGameLoader(UseableItem playerChoice)
+	public void SetPlayerHand(UseableItem playerHand)
 	{
-		_choice = playerChoice;
+		_playerHand = playerHand;
 	}
 
 	public void Load()
@@ -19,9 +19,9 @@ public class UpdateGameLoader
 		var useableItemValues = Enum.GetValues(typeof(UseableItem));
 		var opponentHand = (UseableItem) useableItemValues.GetValue(UnityEngine.Random.Range(1, useableItemValues.Length));
 
-		mockGameUpdate["resultPlayer"] = _choice;
+		mockGameUpdate["resultPlayer"] = _playerHand;
 		mockGameUpdate["resultOpponent"] = opponentHand;
-		mockGameUpdate["coinsAmountChange"] = GetCoinsAmount(_choice, opponentHand);
+		mockGameUpdate["coinsAmountChange"] = GetCoinsAmount(_playerHand, opponentHand);
 		
 		OnLoaded(mockGameUpdate);
 	}

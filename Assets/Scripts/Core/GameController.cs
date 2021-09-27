@@ -21,6 +21,9 @@ public class GameController : MonoBehaviour
 		playerInfoLoader = new PlayerInfoLoader();
 		playerInfoLoader.OnLoaded += OnPlayerInfoLoaded;
 		playerInfoLoader.Load();
+
+		updateGameLoader = new UpdateGameLoader();
+		updateGameLoader.OnLoaded += OnGameUpdated;
 	}
 
 	void Update()
@@ -89,8 +92,7 @@ public class GameController : MonoBehaviour
 
 	private void UpdateGame(UseableItem playerChoice)
 	{
-		updateGameLoader = new UpdateGameLoader(playerChoice);
-		updateGameLoader.OnLoaded += OnGameUpdated;
+		updateGameLoader.SetPlayerHand(playerChoice);
 		updateGameLoader.Load();
 	}
 
